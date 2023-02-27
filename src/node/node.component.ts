@@ -1,12 +1,19 @@
-import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { NodeEditor, Node, Input as ReteInput, Output as ReteOutput, Control as ReteControl } from 'rete';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  ViewChild,
+} from '@angular/core';
+import { Node, NodeEditor } from 'rete';
 import { NodeService } from '../node.service';
+import { SocketComponent } from '../socket/socket.component';
 
 @Component({
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.sass'],
   providers: [NodeService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeComponent {
   @Input() editor!: NodeEditor;
@@ -14,11 +21,21 @@ export class NodeComponent {
   @Input() bindSocket!: Function;
   @Input() bindControl!: Function;
 
-  constructor(protected service: NodeService, protected cdr: ChangeDetectorRef) {}
+  @ViewChild('reteInputSocket') reteInputSocket?: SocketComponent;
+  @ViewChild('reteOutputSocket') reteOutputSocket?: SocketComponent;
+
+  constructor(
+    protected service: NodeService,
+    protected cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.service.setBindings(this.bindSocket, this.bindControl);
-    this.node.update = () => this.cdr.detectChanges();
+    this.node.update = () => {
+      this.cdr.detectChanges();
+      this.reteOutputSocket?.cdr.detectChanges();
+      this.reteInputSocket?.cdr.detectChanges();
+    };
   }
 
   get inputs() {
