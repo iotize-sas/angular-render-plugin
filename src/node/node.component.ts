@@ -53,4 +53,8 @@ export class NodeComponent {
   selected() {
     return this.editor.selected.contains(this.node) ? 'selected' : '';
   }
+
+  errorClass() {
+    return this.node.data.error ? 'error' : '';
+  }
 }

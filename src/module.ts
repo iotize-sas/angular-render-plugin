@@ -1,13 +1,13 @@
-import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
-
+import { IonicModule } from '@ionic/angular';
+import { ControlDirective } from './control.directive';
+import { CustomComponent } from './custom.component';
 import { KebabPipe } from './kebab.pipe';
 import { NodeComponent } from './node/node.component';
-import { SocketComponent } from './socket/socket.component';
-import { ControlDirective } from './control.directive';
 import { SocketDirective } from './socket.directive';
-import { CustomComponent } from './custom.component';
+import { SocketComponent } from './socket/socket.component';
 
 @NgModule({
   declarations: [
@@ -18,30 +18,23 @@ import { CustomComponent } from './custom.component';
     SocketDirective,
     KebabPipe,
   ],
-  imports: [
-    CommonModule
-  ],
-  providers: [
-    KebabPipe,
-    ControlDirective
-  ],
+  imports: [CommonModule, IonicModule],
+  providers: [KebabPipe, ControlDirective],
   exports: [
     NodeComponent,
     CustomComponent,
     SocketComponent,
     ControlDirective,
     SocketDirective,
-    KebabPipe
+    KebabPipe,
   ],
-  entryComponents: [
-    NodeComponent,
-    SocketComponent,
-    CustomComponent
-  ]
+  entryComponents: [NodeComponent, SocketComponent, CustomComponent],
 })
 export class ReteModule {
-  constructor(injector: Injector) { // StaticInjectorError due to 'npm link'
+  constructor(injector: Injector) {
+    // StaticInjectorError due to 'npm link'
     const CustomElement = createCustomElement(CustomComponent, { injector });
-    if (!customElements.get('rete-element')) customElements.define('rete-element', CustomElement);
+    if (!customElements.get('rete-element'))
+      customElements.define('rete-element', CustomElement);
   }
 }
