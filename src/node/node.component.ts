@@ -55,6 +55,6 @@ export class NodeComponent {
   }
 
   errorClass() {
-    return this.node.data.error ? 'error' : '';
+    return this.node.meta.error ? 'error' : '';
   }
 }

@@ -1,7 +1,7 @@
 <div class="node" [ngClass]="[selected(), node.name, errorClass()] | kebab">
   <div class="title">{{ node.name }}</div>
-  <ion-item lines="none" *ngIf="node.data?.error">
-    <ion-text class="ion-text-wrap">{{ node.data.error.message }}</ion-text>
+  <ion-item lines="none" *ngIf="node.meta?.error">
+    <ion-text class="ion-text-wrap">{{ node.meta.error.message }}</ion-text>
   </ion-item>
   <div class="output" *ngFor="let output of outputs">
     <div class="output-title">{{ output.name }}</div>
